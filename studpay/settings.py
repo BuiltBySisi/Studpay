@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-=r1!c5edd(-0!r5^26g!y)mwi5)8)*bwoo81r$x3vrh(s0uc_4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'studpay.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / 'templates' ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
