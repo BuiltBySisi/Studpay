@@ -13,7 +13,7 @@ class AdminSignUp(forms.ModelForm):
 #student form
 class StudentForm(forms.ModelForm):
   class Meta:
-    model=User
+    model= User
     fields=['first_name', 'last_name', 'username', 'password']
 class StudentExtra(forms.ModelForm):
   class Meta:

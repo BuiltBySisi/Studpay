@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Teacher(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
   joindate = models.DateField(auto_now_add=True)
-  phone = models.Charfield(max_length=40)
+  phone = models.CharField(max_length=40)
   salary = models.PositiveIntegerField(null=False)
   status = models.BooleanField(default=False)
   def __str__(self):
@@ -45,7 +45,7 @@ class Student(models.Model):
     return self.user.first_name+" "+self.user.last_name
 
   @property
-  def get_id(Self):
+  def get_id(self):
     return self.user.id
   
   def __str__(self):
@@ -53,7 +53,7 @@ class Student(models.Model):
 
 
   
-class Attendace(models.Model):
+class Attendance(models.Model):
   roll= models.CharField(max_length=10, null=True)
   date= models.DateField()
   cl = models.CharField(max_length=10)
@@ -74,6 +74,15 @@ grades=[
   ('F', 'Fail'),
 ]
 class Performance(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE)
   subject = models.CharField(max_length=20, null=True)
-  grade = models.CharField(max_length=10, choices=grades, default=null)
+  grade = models.CharField(max_length=10, choices=grades, default='null')
   teacherComment = models.CharField(max_length=100)
+  
+  @property
+  def get_grade(self):
+    return self.subject + " " + self.grade
+  
+  @property
+  def get_performer(self):
+    return self.user + " " + self.teacherComment

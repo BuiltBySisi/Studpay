@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'tailwind',
     'paytask',
     'theme',
+    'api',
     'django_browser_reload',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
