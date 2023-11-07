@@ -40,6 +40,7 @@ class Student(models.Model):
   cl = models.CharField(max_length=10, choices=classes, default='Grade one')
   status = models.BooleanField(default=False)
   roll = models.CharField(max_length=10)
+  
   @property
   def get_name(self):
     return self.user.first_name+" "+self.user.last_name
