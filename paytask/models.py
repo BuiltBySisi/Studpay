@@ -16,7 +16,7 @@ class Teacher(models.Model):
     return self.user.id 
 
   @property
-  gef get_name(self):
+  def get_name(self):
     return self.user.first_name+" "+self.user.last_name
 
 
