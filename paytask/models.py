@@ -30,14 +30,14 @@ classes = [
   ('Grade seven','seven'),
   ('Grade eight','eight'),
   ('Grade nine','nine'),
-  ('Grade ten','ten'),
+  ('Grade ten','ten')
 ]
 
 class Student(models.Model):
   user = models.OneToOneField(User,on_delete=models.CASCADE)
   phone = models.CharField(max_length=10)
   fee = models.PositiveIntegerField(null=True)
-  cl = models.CharField(max_length=10, choices=classes, default='Grade one')
+  cl = models.CharField(max_length=11, choices=classes, default='Grade one')
   status = models.BooleanField(default=False)
   roll = models.CharField(max_length=10)
   
