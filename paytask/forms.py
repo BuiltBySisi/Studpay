@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from . import  models
+from paytask.models import Student, Teacher, Notice, Performance
 
 
 #admin signup form
@@ -17,7 +17,7 @@ class StudentForm(forms.ModelForm):
     fields=['first_name', 'last_name', 'username', 'password']
 class StudentExtra(forms.ModelForm):
   class Meta:
-    model = models.Student
+    model = Student
     fields=['roll', 'cl', 'mobile', 'fee', 'status']
 
 
@@ -28,7 +28,7 @@ class Teacher(forms.ModelForm):
     fields=['first_name','last_name','username','password']
 class TeacherExtra(forms.ModelForm):
   class Meta:
-    model=models.Teacher
+    model= Teacher
     fields=['salary','mobile','status']
 
 
@@ -45,14 +45,14 @@ class AskDateForm(forms.Form):
 #notice form
 class NoticeForm(forms.ModelForm):
   class Meta:
-    model=models.Notice
+    model= Notice
     fields='__all__'
 
 
 #performance form
 class PerformanceForm(forms.ModelForm):
   class Meta:
-    model=models.Performance
+    model = Performance
     fields='__all__'
 
 
