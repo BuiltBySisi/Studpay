@@ -3,11 +3,11 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from api.serializers import UserSerializer
+from api.serializers import UserSerializer, PerformanceSerializer
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-
+from rest_framework import status
 
 # Create your views here.
 
@@ -40,4 +40,17 @@ def signup(request):
 def tokenTest(request):
     user_email = request.user.email
     return Response(f"{user_email} Passed Authentication!")
+
+@api_view(['POST'])
+def performance(request):
+    serializer = PerformanceSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        user = User.objects.get(user_email=request.data['user email'])
+        authent = tokenTest(user)
+        if authent.IsAuthenticated == True:
+            return Response({"Student Performance": serializer.data})
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
