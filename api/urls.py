@@ -5,5 +5,5 @@ urlpatterns = [
     re_path('login', views.login),
     re_path('signup', views.signup),
     re_path('token', views.tokenTest),
-    re_path('performance', views.performance),
+    re_path('performance/<str:pk>/', views.performance),
 ]

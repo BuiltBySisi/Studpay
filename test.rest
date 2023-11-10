@@ -17,3 +17,9 @@ Content-Type: application/json
 Authorization: Token 82cf370959795c75b52a094a28fad25fc498e593
 
 {}
+
+###
+POST http://127.0.0.1:8000/api/performance/1/
+Content-Type: application/json
+
+{ "user": "Destinne", "subject": "English", "grade": "A" } 

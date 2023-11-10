@@ -42,13 +42,13 @@ def tokenTest(request):
     return Response(f"{user_email} Passed Authentication!")
 
 @api_view(['POST'])
-def performance(request):
+def performance(request, pk):
     serializer = PerformanceSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        user = User.objects.get(user_email=request.data['user email'])
-        authent = tokenTest(user)
-        if authent.IsAuthenticated == True:
+        user = User.objects.get(id = pk, username=request.data['user'])
+        authenticate_ = tokenTest(user)
+        if authenticate_.IsAuthenticated == True:
             return Response({"Student Performance": serializer.data})
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
