@@ -1,7 +1,7 @@
 POST http://127.0.0.1:8000/api/login
 Content-Type: application/json
 
-{ "username": "Destinne", "password": "DesMuge@1050" }
+{ "username": "Destinne", "password": "Destinne" }
 
 ###
 
@@ -22,4 +22,18 @@ Authorization: Token 82cf370959795c75b52a094a28fad25fc498e593
 POST http://127.0.0.1:8000/api/performance/1/
 Content-Type: application/json
 
-{ "user": "Destinne", "subject": "English", "grade": "A" } 
+{ "user": "Destinne", "subject": "English", "grade": "A" }
+
+###
+
+POST http://127.0.0.1:8000/api/signon
+Content-Type: application/json
+
+{ "username": "Meruaki", "email": "Meruaki123@gmail.com", "password": "Meruaki" }
+
+###
+
+POST http://127.0.0.1:8000/api/logon
+Content-Type: application/json
+
+{ "username": "Meruaki", "password": "Meruaki" }

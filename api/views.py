@@ -8,8 +8,12 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-
+from rest_framework.views import APIView
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.authentication import BasicAuthentication
 # Create your views here.
+
+# Function Based Auth Views
 
 @api_view(['POST'])
 def login(request):
@@ -29,7 +33,7 @@ def signup(request):
         serializer.save()
         user = User.objects.get(username=request.data['username'])
         user.set_password(request.data['password'])
-        user.save()
+        user.save() 
         token = Token.objects.create(user=user)
         return Response({"token": token.key, "user": serializer.data})
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -53,4 +57,41 @@ def performance(request, pk):
         return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+# Class Based Auth Views
+class Register(APIView):
+    def post(self, request, format=None):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+        
+        
+class Login(APIView):
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
+    # permission_classes = [IsAuthenticated]
+    def post(self, request, format=None):
+        
+        if request.user:
+            try:
+                user = User.objects.get(username=request.data["username"])
+                return Response({f"{user}": f"{user.password}"})
+            except:
+                return Response({"error": "user invalid"})
+        data = {
+            'username' : request.data['username'],
+            'password' : request.data['password']
+        }
+        
+        password_ = data['password']
+        username_ = data['username']
+        print(username_, password_)
+        
+        user = User.objects.filter(username = username_)
+        
+        if user is None:
+            return AuthenticationFailed({"Error": "User Not Found"})
+        if password_ is None:
+            return AuthenticationFailed({"Error": "Incorrect Password"})
+        
+        return Response({"Success!": "User Logged In"})
+        
