@@ -138,3 +138,14 @@ class CredentialChecker(APIView):
                 return Response({f"{user}": f"{user.password}", f"{user.email}": f"{content}"})
             except:
                 return Response({"error": "user invalid"})
+            
+
+class Logout(APIView):
+    def post(self, request, format=None):
+        response = Response()
+        response.delete_cookie('Token')
+        response.data = {
+            'message': 'Logged Out Successfully!'
+        }
+        
+        return response
