@@ -7,4 +7,5 @@ urlpatterns = [
     re_path('token', views.tokenTest),
     re_path('logon', views.Login.as_view()),
     re_path('signon', views.Register.as_view()),
+    re_path('usercheck', views.CredentialChecker.as_view())
 ]

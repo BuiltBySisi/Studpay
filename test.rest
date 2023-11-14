@@ -37,3 +37,10 @@ POST http://127.0.0.1:8000/api/logon
 Content-Type: application/json
 
 { "username": "Meruaki", "password": "Meruaki" }
+
+###
+
+GET http://127.0.0.1:8000/api/usercheck
+Content-Type: application/json
+
+{}

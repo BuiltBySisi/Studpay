@@ -111,16 +111,27 @@ class Login(APIView):
             'Created On': payload['token_created'],
             'Expires In': payload['expiry_time']
         }
-        return response
+        return response 
 
 class CredentialChecker(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     
     def get(self, request, format=None):
+        
+        token = request.COOKIES.get('Token')
+        
         content = {
             'user': str(request.user),  # `django.contrib.auth.User` instance.
             'auth': str(request.auth),  # None
         }
+        
+        while token:
+            try:
+                data = jwt.decode(token, 'secret', algorithms=["HS256"])
+                return Response(data)
+            except:
+                return Response({"Error": "Token Invalid"})
+                
         if request.user:
             try:
                 user = User.objects.get(username=request.data["username"])
