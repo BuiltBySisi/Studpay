@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tailwind',
+    'corsheaders',
     'paytask',
     'theme',
     'api',
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     "django_browser_reload.middleware.BrowserReloadMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -141,3 +143,9 @@ INTERNAL_IPS = [
 
 # NPM Config
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+
+# CorsHeaders Config
+CORS_ALLOWED_ORIGINS = []
+CORS_ALLOWED_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = []

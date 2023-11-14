@@ -11,6 +11,10 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.authentication import BasicAuthentication
+import jwt, datetime
+from django.core.serializers.json import DjangoJSONEncoder
+import  json
+
 # Create your views here.
 
 # Function Based Auth Views
@@ -71,12 +75,6 @@ class Login(APIView):
     # permission_classes = [IsAuthenticated]
     def post(self, request, format=None):
         
-        if request.user:
-            try:
-                user = User.objects.get(username=request.data["username"])
-                return Response({f"{user}": f"{user.password}"})
-            except:
-                return Response({"error": "user invalid"})
         data = {
             'username' : request.data['username'],
             'password' : request.data['password']
@@ -93,5 +91,39 @@ class Login(APIView):
         if password_ is None:
             return AuthenticationFailed({"Error": "Incorrect Password"})
         
-        return Response({"Success!": "User Logged In"})
+        dateTime = datetime.datetime.utcnow()
+        deltaTime = datetime.timedelta(minutes=60)
+        serialized_datetime = json.dumps(dateTime, cls=DjangoJSONEncoder)
+        serialized_delta_time = json.dumps(deltaTime, cls=DjangoJSONEncoder)
         
+        payload = {
+            'username': username_,
+            'token_created': serialized_datetime,
+            'expiry_time' : serialized_datetime + serialized_delta_time
+        }
+        
+        token = jwt.encode(payload, 'secret', algorithm='HS256')
+        response = Response()
+        response.set_cookie(key='Token', value=token, expires=payload['expiry_time'], httponly=True)
+        
+        response.data = {
+            'Token': token,
+            'Created On': payload['token_created'],
+            'Expires In': payload['expiry_time']
+        }
+        return response
+
+class CredentialChecker(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request, format=None):
+        content = {
+            'user': str(request.user),  # `django.contrib.auth.User` instance.
+            'auth': str(request.auth),  # None
+        }
+        if request.user:
+            try:
+                user = User.objects.get(username=request.data["username"])
+                return Response({f"{user}": f"{user.password}", f"{user.email}": f"{content}"})
+            except:
+                return Response({"error": "user invalid"})
