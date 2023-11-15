@@ -75,7 +75,7 @@ grades=[
   ('F', 'Fail'),
 ]
 class Performance(models.Model):
-  user = models.OneToOneField(User, on_delete=models.CASCADE)
+  student = models.OneToOneField(Student, on_delete=models.CASCADE)
   subject = models.CharField(max_length=20, null=True)
   grade = models.CharField(max_length=10, choices=grades, default='null')
   teacherComment = models.CharField(max_length=100)
