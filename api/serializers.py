@@ -13,4 +13,4 @@ class UserSerializer(serializers.ModelSerializer):
 class PerformanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Performance
-        fields = ['user', 'subject', 'grade']
+        fields = ['student', 'subject', 'grade']
