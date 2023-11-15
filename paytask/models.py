@@ -1,5 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
+import uuid
+
+# Unique code generator
+
+def generate_unique_code():
+  return str(uuid.uuid4().hex)[:10]
+
 # Create your models here.
 
 class Teacher(models.Model):
@@ -8,12 +15,14 @@ class Teacher(models.Model):
   phone = models.CharField(max_length=40)
   salary = models.PositiveIntegerField(null=False)
   status = models.BooleanField(default=False)
+  unique_code = models.CharField(max_length=10, unique=True, default=uuid.uuid4)
+  
   def __str__(self):
     return self.user.first_name
 
   @property
   def get_id(self):
-    return self.user.id 
+    return self.user.id +" "+ self.user.first_name+" "+self.user.unique_code
 
   @property
   def get_name(self):
@@ -40,6 +49,7 @@ class Student(models.Model):
   cl = models.CharField(max_length=11, choices=classes, default='Grade one')
   status = models.BooleanField(default=False)
   roll = models.CharField(max_length=10)
+  unique_code = models.CharField(max_length=10, unique=True, default=uuid.uuid4)
   
   @property
   def get_name(self):
@@ -47,7 +57,7 @@ class Student(models.Model):
 
   @property
   def get_id(self):
-    return self.user.id
+    return self.user.id+" "+self.user.first_name+" "+self.user.unique_code
   
   def __str__(self):
     return self.user.first_name

@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from api.serializers import UserSerializer, PerformanceSerializer
+from api.serializers import UserSerializer, PerformanceSerializer, StudentSerializer, StudentExtraSerializer, TeacherSerializer, TeacherExtraSerializer
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
@@ -50,11 +50,16 @@ def tokenTest(request):
     return Response(f"{user_email} Passed Authentication!")
 
 @api_view(['POST'])
+def studentSignup(request):
+    serializer = StudentSerializer()
+    pass  
+
+@api_view(['POST'])
 def performance(request, pk):
     serializer = PerformanceSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
-        user = User.objects.get(id = pk, username=request.data['user'])
+        user = User.objects.get(id = pk, username=request.data['student'])
         authenticate_ = tokenTest(user)
         if authenticate_.IsAuthenticated == True:
             return Response({"Student Performance": serializer.data})
@@ -149,3 +154,5 @@ class Logout(APIView):
         }
         
         return response
+    
+    

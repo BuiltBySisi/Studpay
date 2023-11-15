@@ -29,14 +29,14 @@ Content-Type: application/json
 POST http://127.0.0.1:8000/api/signon
 Content-Type: application/json
 
-{ "username": "Meruaki", "email": "Meruaki123@gmail.com", "password": "Meruaki" }
+{ "username": "Mwaki", "email": "Mwaki123@gmail.com", "password": "Mwaki" }
 
 ###
 
 POST http://127.0.0.1:8000/api/logon
 Content-Type: application/json
 
-{ "username": "Meruaki", "password": "Meruaki" }
+{ "username": "Mwaki", "password": "Mwaki" }
 
 ###
 
