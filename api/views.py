@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from api.serializers import UserSerializer, PerformanceSerializer, StudentSerializer, StudentExtraSerializer, TeacherSerializer, TeacherExtraSerializer
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.views import APIView
@@ -51,8 +51,24 @@ def tokenTest(request):
 
 @api_view(['POST'])
 def studentSignup(request):
-    serializer = StudentSerializer()
-    pass  
+    serializer = StudentSerializer(data=request.data)
+    extraSerializer = StudentExtraSerializer(data=request.data)
+    
+    if serializer.is_valid() and extraSerializer.is_valid():
+        serializer.save()
+        student = User.objects.all().filter(request.data['username'])
+        student.set_password(request.data['password'])
+        student.save()
+        serialTwo = extraSerializer.save(commit=False)
+        serialTwo.user = student
+        serialTwo.save()
+        
+        studentGroup = Group.objects.get_or_create("STUDENT")
+        studentGroup[0].user_set.add(student)
+        
+        
+        return Response({"Success": "Student Added Successfully"})
+    return Response(serializer.errors, extraSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def performance(request, pk):

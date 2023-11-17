@@ -22,7 +22,7 @@ class TeacherExtraSerializer(serializers.ModelSerializer):
     
     class Meta(object):
         models = Teacher
-        fields = ['phone', 'joindate', 'salary', 'status', 'unique_code']
+        fields = ['phone', 'joindate', 'salary', 'status']
 
 # Student Serializer
 class StudentSerializer(serializers.ModelSerializer):
@@ -37,7 +37,7 @@ class StudentExtraSerializer(serializers.ModelSerializer):
     
     class Meta(object):
         model = Student
-        fields = ['phone', 'fee', 'cl', 'status', 'roll', 'unique_code']
+        fields = ['phone', 'fee', 'cl', 'roll', 'status']
 
 #Performance Serializer
 class PerformanceSerializer(serializers.ModelSerializer):
